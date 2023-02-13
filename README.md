@@ -1,4 +1,4 @@
-# AFRL FIFO Stimulator for AXIS
+# AFRL FIFO Stimulator
 ## FIFO Stimulator modules
 ---
 

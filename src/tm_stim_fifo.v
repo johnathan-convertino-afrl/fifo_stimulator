@@ -43,7 +43,8 @@ module write_fifo_stimulus #(
     input                         rd_en,
     output  reg                   rd_valid,
     output  [(BYTE_WIDTH*8)-1:0]  rd_data,
-    output  reg                   rd_empty
+    output  reg                   rd_empty,
+    output  reg                   eof
   );
   
 
@@ -90,13 +91,15 @@ module write_fifo_stimulus #(
       
       r_b_fwft <= FWFT;
       
+      eof <= 0;
+      
       bytes_read = 0;
     // out of reset, run on posedge clock
     end else begin
+      eof <= eof;
       // first word fall through if r_b_fwft is 1.
       
-      if(r_b_fwft || rd_en)
-      begin
+      if(r_b_fwft || rd_en) begin
         bytes_read = $read_binary_file(FILE, r_rd_data);
         
         rr_rd_data  <= r_rd_data;
@@ -105,8 +108,11 @@ module write_fifo_stimulus #(
         
         r_b_fwft <= 1'b0;
         
-        if(bytes_read == 0)
-        begin
+        if(bytes_read < 0) begin
+          eof <= 1'b1;
+        end
+        
+        if(bytes_read == 0) begin
           rr_rd_data  <= 0;
           rd_valid    <= 1'b0;
           rd_empty    <= 1'b1;
@@ -123,8 +129,9 @@ endmodule
 //******************************************************************************
 module read_fifo_stimulus #(
     parameter BYTE_WIDTH  = 1,          /**< bus width in bytes for data bus */
-    parameter ACK_ENA     = 0,
-    parameter FILE        = "out.bin"  /**< input file name    */
+    parameter ACK_ENA     = 0,          /**< enable ack if set to 1 (does nothing at the moment, ack is not used*/
+    parameter RAND_FULL   = 0,          /**< randomize the full output signal */
+    parameter FILE        = "out.bin"   /**< input file name    */
   )
   (
     input                         wr_clk,
@@ -132,7 +139,8 @@ module read_fifo_stimulus #(
     input                         wr_en,
     output  reg                   wr_ack,
     input   [(BYTE_WIDTH*8)-1:0]  wr_data,
-    output  reg                   wr_full
+    output  reg                   wr_full,
+    input                         eof
   );
   
   integer num_wrote = 0;
@@ -151,13 +159,17 @@ module read_fifo_stimulus #(
       num_wrote <= 0;
     // out of reset, run on posedge clock
     end else begin
-      wr_full <= 0;
+      wr_full <= (RAND_FULL != 0 ? $random%2 : 0);;
       wr_ack  <= 0;
 
-      if(wr_en == 1)
-      begin      
+      if(wr_en == 1) begin      
         num_wrote = $write_binary_file(FILE, wr_data);
       end
+      
+      if(eof == 1) begin
+        $finish();
+      end
+
     end
   end
   

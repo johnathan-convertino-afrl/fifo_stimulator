@@ -28,13 +28,13 @@
 
 `timescale 1 ns/10 ps
 
-module tb_fifo;
+module tb_fifo #(
+  parameter IN_FILE_NAME = "in.bin",
+  parameter OUT_FILE_NAME = "out.bin",
+  parameter RAND_FULL = 0);
   //parameter or local param bus, user and dest width? and files as well? 
   
   localparam BUS_WIDTH  = 14;
-  
-  localparam CLK_PERIOD = 500;
-  localparam RST_PERIOD = 1000;
   
   wire                      tb_stim_clk;
   wire                      tb_stim_rstn;
@@ -44,11 +44,7 @@ module tb_fifo;
   wire                      tb_stim_ready;
   wire                      tb_stim_ack;
   
-  reg         tb_cnt_clk  = 0;
-  reg         tb_cnt_rstn = 0;
-  wire [8:0]  tb_cnt_data;
-  
-  integer num_read = 0;
+  wire                      tb_eof;
   
   clk_stimulus #(
     .CLOCKS(1), // # of clocks
@@ -66,31 +62,36 @@ module tb_fifo;
   );
   
   write_fifo_stimulus #(
-    .BYTE_WIDTH(BUS_WIDTH)
+    .BYTE_WIDTH(BUS_WIDTH),
+    .FILE(IN_FILE_NAME)
   ) write_fifo_stim (
     .rd_clk(tb_stim_clk),
     .rd_rstn(tb_stim_rstn),
     .rd_en(~tb_stim_ready),
     .rd_valid(tb_stim_valid),
     .rd_data(tb_stim_data),
-    .rd_empty(tb_stim_empty)
+    .rd_empty(tb_stim_empty),
+    .eof(tb_eof)
   );
 
   
   read_fifo_stimulus #(
-    .BYTE_WIDTH(BUS_WIDTH)
+    .BYTE_WIDTH(BUS_WIDTH),
+    .RAND_FULL(RAND_FULL),
+    .FILE(OUT_FILE_NAME)
   ) read_fifo_stim (
     .wr_clk(tb_stim_clk),
     .wr_rstn(tb_stim_rstn),
     .wr_en(tb_stim_valid),
     .wr_ack(tb_stim_ack),
     .wr_data(tb_stim_data),
-    .wr_full(tb_stim_ready)
+    .wr_full(tb_stim_ready),
+    .eof(tb_eof)
   );
   
-  // vcd dump command
+  // fst dump command
   initial begin
-    $dumpfile ("tb_fifo.vcd");
+    $dumpfile ("tb_fifo.fst");
     $dumpvars (0, tb_fifo);
     #1;
   end

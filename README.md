@@ -1,5 +1,5 @@
 # AFRL FIFO Stimulator
-## FIFO Stimulator modules
+### FIFO Stimulator modules
 ---
 
    author: Jay Convertino   
@@ -12,8 +12,6 @@
    
 ---
 
-![rtl_img](./rtl.png)
-
 ### Dependencies
 #### Build
   - AFRL:utility:helper:1.0.0
@@ -21,6 +19,7 @@
   
 #### Simulation
   - AFRL:simulation:clock_stimulator
+  - AFRL:utility:sim_helper
 
 ### IP USAGE
 #### INSTRUCTIONS
@@ -37,9 +36,18 @@ is has read all data.
 #### TB
 
 * tb_fifo.v
-* test.bin
   
 ### fusesoc
 
 * fusesoc_info.core created.
 * Simulation uses icarus to run data through the core.
+
+#### TARGETS
+
+* RUN WITH: (fusesoc run --target=sim VENDER:CORE:NAME:VERSION)
+  - default (for IP integration builds)
+  - sim
+  - sim_rand_data
+  - sim_rand_full_rand_data
+  - sim_8bit_count_data
+  - sim_rand_full_8bit_count_data

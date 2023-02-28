@@ -162,11 +162,11 @@ module read_fifo_stimulus #(
       wr_full <= (RAND_FULL != 0 ? $random%2 : 0);;
       wr_ack  <= 0;
 
-      if(wr_en == 1) begin      
+      if((wr_en == 1) && (wr_full != 1)) begin      
         num_wrote = $write_binary_file(FILE, wr_data);
       end
       
-      if(eof == 1) begin
+      if((eof == 1) && (wr_full != 1)) begin
         $finish();
       end
 

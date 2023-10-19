@@ -27,10 +27,12 @@ filesets:
       
 targets:
   default: &default
+    description: Default for simulation fileset.
     filesets: [src, dep, dep_vpi]
   
   sim: &sim
     <<: *default
+    description: Default for icarus simulation.
     default_tool: icarus
     toplevel: tb_fifo
     hooks:
@@ -43,6 +45,7 @@ targets:
   
   sim_rand_data:
     <<: *sim
+    description: Random data input.
     parameters:
       - IN_FILE_NAME=random.bin
       - OUT_FILE_NAME=out_random.bin
@@ -50,6 +53,7 @@ targets:
       
   sim_rand_full_rand_data:
     <<: *sim
+    description: Random data, random ready input.
     parameters:
       - IN_FILE_NAME=random.bin
       - OUT_FILE_NAME=out_random.bin
@@ -57,6 +61,7 @@ targets:
       
   sim_8bit_count_data:
     <<: *sim
+    description: Counter data input.
     parameters:
       - IN_FILE_NAME=8bit_count.bin
       - OUT_FILE_NAME=out_8bit_count.bin
@@ -64,6 +69,7 @@ targets:
   
   sim_rand_full_8bit_count_data:
     <<: *sim
+    description: Counter data, random ready input.
     parameters:
       - IN_FILE_NAME=8bit_count.bin
       - OUT_FILE_NAME=out_8bit_count.bin

@@ -1,0 +1,1 @@
+﻿NDMenu.OnSectionLoaded("files.js",[[2,"fifo_stimulator_source","File:",[[1,"tm_stim_fifo.v"]]],[2,"fifo_stimulator_testbench","File2:",[[1,"tb_fifo.v"]]]]);

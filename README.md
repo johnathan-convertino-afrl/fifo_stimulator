@@ -1,5 +1,8 @@
 # AFRL FIFO Stimulator
 ### FIFO Stimulator modules
+
+![image](docs/manual/img/AFRL.png)
+
 ---
 
    author: Jay Convertino   
@@ -19,7 +22,13 @@
 #### Previous
   - none
 
-### Dependencies
+### DOCUMENTATION
+  For detailed usage information, please navigate to one of the following sources. They are the same, just in a different format.
+
+  - [fifo_stimulator.pdf](docs/manual/fifo_stimulator.pdf)
+  - [github page](https://johnathan-convertino-afrl.github.io/fifo_stimulator/)
+
+### DEPENDENCIES
 #### Build
   - AFRL:utility:helper:1.0.0
   - AFRL:vpi:binary_file_io:1.0.0
@@ -27,13 +36,6 @@
 #### Simulation
   - AFRL:simulation:clock_stimulator
   - AFRL:utility:sim_helper
-
-### IP USAGE
-#### INSTRUCTIONS
-
-This core contains two modules. A writer, and reader that should be placed on the  
-output, and input of the device under test. This will stream data through till  
-is has read all data.
 
 ### COMPONENTS
 #### SRC
@@ -44,12 +46,12 @@ is has read all data.
 
 * tb_fifo.v
   
-### fusesoc
+### FUSESOC
 
 * fusesoc_info.core created.
 * Simulation uses icarus to run data through the core.
 
-#### TARGETS
+#### Targets
 
 * RUN WITH: (fusesoc run --target=sim VENDER:CORE:NAME:VERSION)
   - default (for IP integration builds)

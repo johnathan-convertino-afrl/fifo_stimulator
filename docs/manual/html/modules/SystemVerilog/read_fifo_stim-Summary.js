@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("SystemVerilogModule:read_fifo_stim","read_fifo_stim");NDSummary.OnSummaryLoaded("SystemVerilogModule:read_fifo_stim",[["SystemVerilog","SystemVerilog"]],[["Modules","Module"]],[[13,0,0,"read_fifo_stim"]]);

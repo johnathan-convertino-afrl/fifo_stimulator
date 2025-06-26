@@ -1,5 +1,6 @@
 # AFRL FIFO Stimulator
 ### FIFO Stimulator modules
+---
 
 ![image](docs/manual/img/AFRL.png)
 
